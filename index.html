@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>enVoi - Modern Communication Platform</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .hero {
+        background: linear-gradient(
+          135deg,
+          #0066ff 0%,
+          #6600ff 50%,
+          #ff00cc 100%
+        );
+        color: white;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero > div {
+        position: relative;
+        z-index: 1;
+      }
+
+      .navbar {
+        transition: all 0.3s;
+      }
+
+      /* Initial transparent state with white text */
+      .navbar:not(.scrolled) {
+        background-color: transparent !important;
+      }
+
+      .navbar:not(.scrolled) .navbar-brand,
+      .navbar:not(.scrolled) .nav-link {
+        color: white !important;
+      }
+
+      .navbar:not(.scrolled) .navbar-toggler {
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .navbar:not(.scrolled) .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+
+      /* Scrolled state with dark text */
+      .navbar.scrolled {
+        background-color: rgba(255, 255, 255, 0.9) !important;
+      }
+
+      .navbar.scrolled .navbar-brand,
+      .navbar.scrolled .nav-link {
+        color: rgba(0, 0, 0, 0.7) !important;
+      }
+
+      .navbar.scrolled .nav-link:hover {
+        color: rgba(0, 0, 0, 0.9) !important;
+      }
+
+      /* Button styles for transparent navbar */
+      .navbar:not(.scrolled) .btn-outline-light {
+        color: white;
+        border-color: white;
+      }
+
+      .navbar:not(.scrolled) .btn-outline-light:hover {
+        background-color: white;
+        color: #6600ff;
+      }
+
+      /* Button styles for scrolled navbar */
+      .navbar.scrolled .btn-outline-light {
+        color: #6600ff;
+        border-color: #6600ff;
+      }
+
+      .navbar.scrolled .btn-outline-light:hover {
+        background-color: #6600ff;
+        color: white;
+        border-color: #6600ff;
+      }
+
+      /* Add subtle animation to the hero text */
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        animation: fadeInUp 1s ease;
+      }
+
+      .hero .lead {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease 0.2s;
+      }
+
+      /* Make feature cards more interactive */
+      .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 12px;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Add some accent colors */
+      .card-title {
+        color: #6600ff;
+        margin-bottom: 1rem;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Feature section styles */
+      .feature-row {
+        padding: 3rem 0;
+      }
+
+      .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 2rem 0;
+      }
+
+      .feature-list li {
+        margin-bottom: 1rem;
+        padding-left: 2rem;
+        position: relative;
+      }
+
+      .feature-list li::before {
+        content: "✓";
+        color: #6600ff;
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+      }
+
+      .feature-image {
+        background: rgba(102, 0, 255, 0.1);
+        border-radius: 1rem;
+        padding: 2rem;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Identity Demo Styles */
+      .identity-demo {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .wallet-address {
+        font-family: monospace;
+        font-size: 0.8rem;
+        color: #666;
+        display: block;
+        margin-bottom: 1rem;
+      }
+
+      .arrow {
+        font-size: 2rem;
+        color: #6600ff;
+        display: block;
+        margin: 1rem 0;
+      }
+
+      .voi-name {
+        font-size: 1.5rem;
+        color: #6600ff;
+        font-weight: bold;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .feature-row {
+          padding: 2rem 0;
+        }
+
+        .feature-image {
+          margin-top: 2rem;
+          min-height: 200px;
+        }
+      }
+
+      /* Integration Demo Styles */
+      .connect-wallet-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 360px;
+        overflow: hidden;
+      }
+
+      .wallet-header {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .wallet-header h4 {
+        margin: 0;
+        color: #333;
+        font-size: 1.2rem;
+      }
+
+      .wallet-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .avatar-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #6600ff;
+        border: 2px solid #6600ff;
+        box-shadow: 0 4px 15px rgba(102, 0, 255, 0.3);
+        position: relative;
+      }
+
+      .avatar-circle::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        pointer-events: none;
+      }
+
+      .avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        image-rendering: pixelated;
+      }
+
+      /* Optional: Add hover effect */
+      .avatar-circle:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+      }
+
+      .wallet-info {
+        text-align: center;
+      }
+
+      .wallet-info .voi-name {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .wallet-info .wallet-address {
+        font-family: monospace;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .connect-btn {
+        background: #6600ff;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+      }
+
+      .connect-btn:hover {
+        background: #5500dd;
+      }
+
+      /* Optional: Add animation */
+      .connect-wallet-card {
+        animation: slideIn 0.5s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .nft-frame {
+        width: 120px;
+        height: 120px;
+        position: relative;
+        margin-bottom: 1rem;
+      }
+
+      .nft-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        object-fit: cover;
+        background: #6600ff;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 20px rgba(102, 0, 255, 0.3);
+      }
+
+      .nft-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: linear-gradient(45deg, #ff6b6b, #ff3366);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        box-shadow: 0 2px 8px rgba(255, 51, 102, 0.3);
+        z-index: 1;
+      }
+
+      .nft-info {
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(4px);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .collection {
+        color: #00ffcc;
+        font-weight: bold;
+      }
+
+      .token-id {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* Hover effects */
+      .nft-frame:hover .nft-img {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(102, 0, 255, 0.4);
+      }
+
+      .nft-img {
+        transition: all 0.3s ease;
+      }
+
+      /* Update wallet card styles */
+      .connect-wallet-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .wallet-header {
+        background: rgba(248, 249, 250, 0.8);
+      }
+
+      .wallet-info .voi-name {
+        font-size: 1.25rem;
+        font-weight: bold;
+        background: linear-gradient(45deg, #6600ff, #00ffcc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+      }
+
+      .connect-btn {
+        background: linear-gradient(45deg, #6600ff, #00ffcc);
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      .connect-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 0, 255, 0.3);
+      }
+
+      /* Full Control Feature styles */
+      .control-demo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      .wallet-exchange {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .wallet {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .wallet-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #6600ff;
+        border: 2px solid #6600ff;
+        box-shadow: 0 4px 15px rgba(102, 0, 255, 0.3);
+        margin-bottom: 0.5rem;
+      }
+
+      .wallet-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .wallet-name {
+        font-size: 1rem;
+        font-weight: bold;
+        color: white;
+      }
+
+      .exchange-arrow {
+        font-size: 2rem;
+        color: #00ffcc;
+        animation: bounce 1s infinite alternate;
+      }
+
+      @keyframes bounce {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-10px);
+        }
+      }
+
+      .name-change {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .wallet {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .wallet-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #6600ff;
+        border: 2px solid #6600ff;
+        box-shadow: 0 4px 15px rgba(102, 0, 255, 0.3);
+        margin-bottom: 0.5rem;
+      }
+
+      .wallet-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .wallet-name {
+        font-size: 1rem;
+        font-weight: bold;
+        color: white;
+      }
+
+      .change-arrow {
+        font-size: 2rem;
+        color: #00ffcc;
+        animation: pulse 1s infinite alternate;
+      }
+
+      @keyframes pulse {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.1);
+        }
+      }
+
+      .marketplace-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        width: 100%;
+        max-width: 380px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .listing-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .listing-tag {
+        background: linear-gradient(45deg, #00ffcc, #6600ff);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: bold;
+      }
+
+      .listing-time {
+        color: #666;
+        font-size: 0.875rem;
+      }
+
+      .name-details {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .wallet-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 0 auto 1rem;
+        border: 2px solid #6600ff;
+        box-shadow: 0 4px 15px rgba(102, 0, 255, 0.3);
+      }
+
+      .wallet-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .voi-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        background: linear-gradient(45deg, #6600ff, #00ffcc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+      }
+
+      .name-info {
+        color: #666;
+        font-size: 0.875rem;
+      }
+
+      .price-section {
+        background: rgba(102, 0, 255, 0.1);
+        padding: 1rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+      }
+
+      .price-label {
+        color: #666;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .price-amount {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+
+      .voi-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+      }
+
+      .amount {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #6600ff;
+      }
+
+      .currency {
+        color: #6600ff;
+        font-weight: bold;
+      }
+
+      .buy-button {
+        background: linear-gradient(45deg, #6600ff, #00ffcc);
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 1rem;
+        border-radius: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .buy-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 0, 255, 0.3);
+      }
+
+      /* Optional: Add hover effect to the entire card */
+      .marketplace-card {
+        transition: transform 0.3s ease;
+      }
+
+      .marketplace-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .ecosystem-visual {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+      }
+
+      .central-name {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+      }
+
+      .name-bubble {
+        background: linear-gradient(45deg, #6600ff, #00ffcc);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 20px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        box-shadow: 0 8px 32px rgba(102, 0, 255, 0.3);
+      }
+
+      .ecosystem-connections {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        animation: rotate 60s linear infinite;
+      }
+
+      .connection-item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 2px;
+        transform-origin: 0 50%;
+        transform: rotate(var(--angle));
+      }
+
+      .connection-bubble {
+        position: absolute;
+        right: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(5px);
+        padding: 0.5rem 1rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        color: #6600ff;
+        white-space: nowrap;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .connection-item::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          rgba(102, 0, 255, 0.5),
+          rgba(0, 255, 204, 0.5)
+        );
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.3;
+        }
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .ecosystem-visual {
+          width: 250px;
+          height: 250px;
+          margin-top: 2rem;
+        }
+      }
+
+      .faq-accordion {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .faq-item {
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .faq-header {
+        background: linear-gradient(45deg, #6600ff, #00ffcc);
+        color: white;
+        padding: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: background 0.3s ease;
+      }
+
+      .faq-header:hover {
+        background: linear-gradient(45deg, #5500dd, #00e6b8);
+      }
+
+      .faq-button {
+        background: none;
+        border: none;
+        color: inherit;
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-align: left;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .faq-icon {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+      }
+
+      .faq-body {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 1rem;
+        color: #333;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .collapse.show .faq-body {
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .ecosystem-graph {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+      }
+
+      .central-node {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+      }
+
+      .node-bubble {
+        background: linear-gradient(45deg, #6600ff, #00ffcc);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 20px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        box-shadow: 0 8px 32px rgba(102, 0, 255, 0.3);
+      }
+
+      .graph-connections {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        animation: rotate 60s linear infinite;
+      }
+
+      .connection-item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 2px;
+        transform-origin: 0 50%;
+        transform: rotate(var(--angle));
+      }
+
+      .connection-bubble {
+        position: absolute;
+        right: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(5px);
+        padding: 0.5rem 1rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        color: #6600ff;
+        white-space: nowrap;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .connection-item::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          rgba(102, 0, 255, 0.5),
+          rgba(0, 255, 204, 0.5)
+        );
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.3;
+        }
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .ecosystem-graph {
+          width: 250px;
+          height: 250px;
+          margin-top: 2rem;
+        }
+      }
+
+      .roadmap-timeline {
+        position: relative;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 0;
+      }
+
+      .roadmap-timeline::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(to bottom, #6600ff, #00ffcc);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 4rem;
+      }
+
+      .timeline-content {
+        position: relative;
+        width: calc(50% - 30px);
+        margin-left: auto;
+        padding: 0 30px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 0;
+        margin-right: auto;
+        text-align: right;
+      }
+
+      .timeline-icon {
+        position: absolute;
+        left: -45px;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: 0 0 20px rgba(102, 0, 255, 0.2);
+        z-index: 2;
+      }
+
+      .timeline-item:nth-child(even) .timeline-icon {
+        left: auto;
+        right: -45px;
+      }
+
+      .timeline-date {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #6600ff;
+        margin-bottom: 1rem;
+      }
+
+      .timeline-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .timeline-card h3 {
+        color: #333;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+      }
+
+      .timeline-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1rem 0;
+      }
+
+      .timeline-list li {
+        margin-bottom: 0.5rem;
+        color: #666;
+        position: relative;
+        padding-left: 1.5rem;
+      }
+
+      .timeline-list li::before {
+        content: "•";
+        color: #6600ff;
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+      }
+
+      .timeline-item:nth-child(even) .timeline-list li {
+        padding-left: 0;
+        padding-right: 1.5rem;
+      }
+
+      .timeline-item:nth-child(even) .timeline-list li::before {
+        left: auto;
+        right: 0;
+      }
+
+      .timeline-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .timeline-item:nth-child(even) .timeline-status {
+        justify-content: flex-end;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ccc;
+      }
+
+      .timeline-status.completed .status-dot {
+        background: #00ffcc;
+      }
+
+      @media (max-width: 768px) {
+        .roadmap-timeline::before {
+          left: 30px;
+        }
+
+        .timeline-content {
+          width: calc(100% - 60px);
+          margin-left: 60px !important;
+          text-align: left !important;
+        }
+
+        .timeline-icon {
+          left: 10px !important;
+        }
+
+        .timeline-item:nth-child(even) .timeline-list li {
+          padding-left: 1.5rem;
+          padding-right: 0;
+        }
+
+        .timeline-item:nth-child(even) .timeline-list li::before {
+          left: 0;
+          right: auto;
+        }
+
+        .timeline-item:nth-child(even) .timeline-status {
+          justify-content: flex-start;
+        }
+      }
+
+      .roadmap-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      @media (min-width: 992px) {
+        .roadmap-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .roadmap-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: transform 0.3s ease;
+      }
+
+      .roadmap-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card-icon {
+        position: absolute;
+        top: -20px;
+        left: 20px;
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 15px rgba(102, 0, 255, 0.2);
+      }
+
+      .card-date {
+        color: #6600ff;
+        font-weight: bold;
+        margin: 1rem 0;
+      }
+
+      .roadmap-card h3 {
+        color: #333;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+      }
+
+      .card-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1rem 0;
+      }
+
+      .card-list li {
+        margin-bottom: 0.5rem;
+        color: #666;
+        position: relative;
+        padding-left: 1.5rem;
+      }
+
+      .card-list li::before {
+        content: "•";
+        color: #6600ff;
+        position: absolute;
+        left: 0;
+      }
+
+      .card-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ccc;
+      }
+
+      .card-status.completed .status-dot {
+        background: #00ffcc;
+      }
+
+      /* Arrow styling */
+      .arrow-right {
+        display: none;
+      }
+
+      @media (min-width: 992px) {
+        .arrow-right {
+          display: block;
+          position: absolute;
+          top: 50%;
+          right: -1.5rem;
+          width: 1rem;
+          height: 1rem;
+          border-top: 2px solid #6600ff;
+          border-right: 2px solid #6600ff;
+          transform: translateY(-50%) rotate(45deg);
+          z-index: 2;
+        }
+
+        .roadmap-card:nth-child(3n) .arrow-right {
+          display: none;
+        }
+
+        /* Gradient line connecting cards */
+        .roadmap-card::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          right: -2rem;
+          width: 2rem;
+          height: 2px;
+          background: linear-gradient(to right, #6600ff, #00ffcc);
+          transform: translateY(-50%);
+        }
+
+        .roadmap-card:nth-child(3n)::after {
+          display: none;
+        }
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 991px) {
+        .roadmap-grid {
+          grid-template-columns: 1fr;
+          max-width: 500px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="#">enVoi</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto mr-3">
+              <li class="nav-item">
+                <a class="nav-link" href="#features">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#about">About</a>
+              </li>
+            </ul>
+            <a href="#" class="btn btn-outline-light my-2 my-sm-0">Open App</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section id="hero" class="hero">
+      <div>
+        <h1>Welcome to enVoi</h1>
+        <p class="lead">Your Digital Identity Passport for Voi</p>
+        <div class="name-search mb-4">
+          <!--input type="text" class="form-control form-control-lg d-inline-block w-auto" placeholder="Search for a name..."-->
+        </div>
+        <a
+          href="https://forms.gle/MqkYZzPmbB1484dm8"
+          target="_blank"
+          class="btn btn-primary btn-lg"
+          >Claim Your Name</a
+        >
+      </div>
+    </section>
+
+    <!--section class="bg-light py-5 mb-5">
+      <div class="container text-center">
+        <div class="row">
+          <div class="col-md-4">
+            <h3 class="display-4 mb-0">1000+</h3>
+            <p class="text-muted">Names Registered</p>
+          </div>
+          <div class="col-md-4">
+            <h3 class="display-4 mb-0">50+</h3>
+            <p class="text-muted">dApps Integration</p>
+          </div>
+          <div class="col-md-4">
+            <h3 class="display-4 mb-0">24/7</h3>
+            <p class="text-muted">Support</p>
+          </div>
+        </div>
+      </div>
+    </section-->
+
+    <main class="container mt-5">
+      <section id="features" class="mb-5">
+        <div class="container">
+          <h2 class="text-center mb-5">Key Features</h2>
+
+          <!-- Unique Identity Feature -->
+          <div class="feature-row row align-items-center mb-5">
+            <div class="col-md-6">
+              <h3>Unique Identity</h3>
+              <p class="lead">Secure your personalized .voi name</p>
+              <ul class="feature-list">
+                <li>Choose your unique digital identifier</li>
+                <li>One name, multiple use cases</li>
+                <li>Replace complex wallet addresses</li>
+                <li>Build your digital presence</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <div class="feature-image">
+                <!-- Placeholder for illustration/screenshot -->
+                <div class="identity-demo">
+                  <span class="wallet-address"
+                    >0x742d35Cc6634C0532925a3b844Bc454e4438f44e</span
+                  >
+                  <span class="arrow">→</span>
+                  <span class="voi-name">you.voi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seamless Integration Feature -->
+          <div
+            class="feature-row row align-items-center mb-5 flex-md-row-reverse"
+          >
+            <div class="col-md-6">
+              <h3>Seamless Integration</h3>
+              <p class="lead">
+                Connect your name to all Voi services and dApps
+              </p>
+              <ul class="feature-list">
+                <li>Universal recognition across Voi ecosystem</li>
+                <li>One-click dApp connections</li>
+                <li>Simplified cross-platform experience</li>
+                <li>Future-proof compatibility</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <div class="feature-image">
+                <div class="integration-demo">
+                  <div class="connect-wallet-card">
+                    <div class="wallet-header">
+                      <h4>Connect Wallet</h4>
+                    </div>
+                    <div class="wallet-content">
+                      <div class="nft-frame">
+                        <div class="nft-badge">Rare</div>
+                        <img
+                          src="https://api.dicebear.com/7.x/shapes/svg?seed=voi&backgroundColor=6600ff"
+                          alt="Avatar"
+                          class="nft-img"
+                        />
+                        <div class="nft-info">
+                          <span class="collection">VoiPunks</span>
+                          <span class="token-id">#4269</span>
+                        </div>
+                      </div>
+                      <div class="wallet-info">
+                        <div class="voi-name">satoshi.voi</div>
+                        <div class="wallet-address">0x742d...f44e</div>
+                      </div>
+                      <button class="connect-btn">Connect</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Full Control Feature -->
+          <div class="feature-row row align-items-center mb-5">
+            <div class="col-md-6">
+              <h3>Full Control</h3>
+              <p class="lead">
+                Manage your digital identity with complete ownership
+              </p>
+              <ul class="feature-list">
+                <li>True ownership of your digital identity</li>
+                <li>Customizable privacy settings</li>
+                <li>Transfer and manage permissions</li>
+                <li>Annual renewal options</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <div class="feature-image">
+                <div class="control-demo">
+                  <div class="marketplace-card">
+                    <div class="listing-header">
+                      <span class="listing-tag">For Sale</span>
+                      <span class="listing-time">Just Listed</span>
+                    </div>
+                    <div class="name-details">
+                      <div class="wallet-avatar">
+                        <img
+                          src="https://api.dicebear.com/7.x/pixel-art/svg?seed=wallet1"
+                          alt="Name Avatar"
+                          class="wallet-img"
+                        />
+                      </div>
+                      <h3 class="voi-name">alice.voi</h3>
+                      <div class="name-info">Premium Name · 5 Characters</div>
+                    </div>
+                    <div class="price-section">
+                      <div class="price-label">Price</div>
+                      <div class="price-amount">
+                        <img
+                          src="https://api.dicebear.com/7.x/shapes/svg?seed=voi"
+                          alt="VOI"
+                          class="voi-icon"
+                        />
+                        <span class="amount">1,000</span>
+                        <span class="currency">VOI</span>
+                      </div>
+                    </div>
+                    <button class="buy-button">Buy Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="mb-5">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <h2 class="mb-4">About enVoi</h2>
+              <p class="lead">
+                enVoi is the official naming service for the Voi ecosystem,
+                allowing you to claim and manage your unique digital identity
+                across the network.
+              </p>
+            </div>
+            <div class="col-md-6">
+              <div class="ecosystem-graph">
+                <div class="central-node">
+                  <div class="node-bubble">.voi</div>
+                </div>
+                <div class="graph-connections">
+                  <div class="connection-item" style="--angle: 0deg">
+                    <div class="connection-bubble">crypto.voi</div>
+                  </div>
+                  <div class="connection-item" style="--angle: 72deg">
+                    <div class="connection-bubble">nft.voi</div>
+                  </div>
+                  <div class="connection-item" style="--angle: 144deg">
+                    <div class="connection-bubble">game.voi</div>
+                  </div>
+                  <div class="connection-item" style="--angle: 216deg">
+                    <div class="connection-bubble">defi.voi</div>
+                  </div>
+                  <div class="connection-item" style="--angle: 288deg">
+                    <div class="connection-bubble">dao.voi</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--section id="contact" class="mb-5">
+        <h2 class="text-center mb-4">Get in Touch</h2>
+        <form class="text-center">
+          <div class="form-group">
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter your email"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </section-->
+
+      <section id="faq" class="mb-5">
+        <div class="container">
+          <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+          <div class="faq-accordion" id="faqAccordion">
+            <div class="faq-item">
+              <div class="faq-header" id="faq1">
+                <button
+                  class="faq-button"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#faqCollapse1"
+                >
+                  <span class="faq-icon">❓</span>
+                  What is a .voi domain name?
+                </button>
+              </div>
+              <div
+                id="faqCollapse1"
+                class="collapse"
+                data-parent="#faqAccordion"
+              >
+                <div class="faq-body">
+                  A .voi domain is your unique digital identifier in the Voi
+                  ecosystem, allowing you to identify yourself in any Voi dApp
+                  using your name instead of your wallet address.
+                </div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-header" id="faq2">
+                <button
+                  class="faq-button"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#faqCollapse2"
+                >
+                  <span class="faq-icon">🔒</span>
+                  How secure is my .voi name?
+                </button>
+              </div>
+              <div
+                id="faqCollapse2"
+                class="collapse"
+                data-parent="#faqAccordion"
+              >
+                <div class="faq-body">
+                  Your .voi name is secured using blockchain technology,
+                  ensuring that only you can manage it.
+                </div>
+              </div>
+            </div>
+            <!-- Add more FAQ items as needed -->
+          </div>
+        </div>
+      </section>
+
+      <section id="roadmap" class="mb-5">
+        <div class="container">
+          <h2 class="text-center mb-5">Our Roadmap</h2>
+          <div class="roadmap-grid">
+            <!-- Q1 2024 -->
+            <div class="roadmap-card">
+              <div class="card-icon">🚀</div>
+              <div class="card-date">Q4 2024</div>
+              <h3>Launch Beta</h3>
+              <ul class="card-list">
+                <li>Initial name registration</li>
+                <li>Basic profile integration</li>
+                <li>Community feedback</li>
+              </ul>
+              <div class="card-status completed">
+                <span class="status-dot"></span>
+                In Progress
+              </div>
+              <div class="arrow-right"></div>
+            </div>
+
+            <!-- Q2 2024 -->
+            <div class="roadmap-card">
+              <div class="card-icon">🔗</div>
+              <div class="card-date">Q1 2025</div>
+              <h3>Expand Integration</h3>
+              <ul class="card-list">
+                <li>dApp connections</li>
+                <li>Marketplace launch</li>
+                <li>Advanced profiles</li>
+              </ul>
+              <div class="card-status">
+                <span class="status-dot"></span>
+                Upcoming
+              </div>
+              <div class="arrow-right"></div>
+            </div>
+
+            <!-- Q3 2025 -->
+            <div class="roadmap-card">
+              <div class="card-icon">⚡</div>
+              <div class="card-date">Q2 2025</div>
+              <h3>Decentralize Governance</h3>
+              <ul class="card-list">
+                <li>Community governance launch</li>
+                <li>DAO implementation</li>
+                <li>Voting mechanisms</li>
+              </ul>
+              <div class="card-status">
+                <span class="status-dot"></span>
+                Planned
+              </div>
+            </div>
+
+            <!-- Q4 2024 -->
+            <!--div class="roadmap-card">
+              <div class="card-icon">🌐</div>
+              <div class="card-date">Q3 2025</div>
+              <h3>Global Launch</h3>
+              <ul class="card-list">
+                <li>Full feature release</li>
+                <li>Cross-chain integration</li>
+                <li>Enterprise solutions</li>
+              </ul>
+              <div class="card-status">
+                <span class="status-dot"></span>
+                Planned
+              </div>
+            </div-->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="bg-primary text-white py-5 mb-0">
+      <div class="container text-center">
+        <h2>Ready to claim your digital identity?</h2>
+        <p class="lead mb-4">Join the future of digital naming on Voi</p>
+        <a
+          href="https://forms.gle/MqkYZzPmbB1484dm8"
+          target="_blank"
+          class="btn btn-light btn-lg"
+          >Get Started Now</a
+        >
+      </div>
+    </section>
+
+    <footer class="bg-light text-center py-3">
+      <p>&copy; 2024 enVoi. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(window).scroll(function () {
+          if ($(this).scrollTop() > 50) {
+            $(".navbar").addClass("scrolled");
+          } else {
+            $(".navbar").removeClass("scrolled");
+          }
+        });
+      });
+
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Add loading animation
+      window.addEventListener("load", function () {
+        document.body.classList.add("loaded");
+      });
+    </script>
+  </body>
+</html>
